@@ -1,0 +1,2 @@
+<p>Thanks, the module '<?php echo $module_human_name?>' has been created.</p>
+<p>If you'd like to <a href='<?php echo $this->config->item('cp_url')?>?D=cp&C=addons_modules&M=module_installer&module=<?php echo $module_name?>'>install it right away, click here.</a></p>
