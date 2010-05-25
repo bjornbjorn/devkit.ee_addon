@@ -56,7 +56,7 @@ class Devkit_mcp
 				foreach($global_variables as $global_variable_filename)
 				{
 
-					$this->EE->db->like('variable_name', $global_variable_filename);
+					$this->EE->db->where('variable_name', $global_variable_filename);
 					$this->EE->db->from('global_variables');
 					$global_variable_data = file_get_contents($tmpl_basepath.'global_variables/'.$global_variable_filename);
 					if($this->EE->db->count_all_results() == 0)
