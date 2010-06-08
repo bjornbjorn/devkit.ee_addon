@@ -70,6 +70,11 @@ if(!function_exists('get_files')){
             case 'text':
                 $dbforge_type = 'text';
                 break;
+
+            case 'char':
+                $dbforge_type = 'char';
+                $extra['constraint'] = "'1'";   // defaults to char(1)                
+                break;
         }
 
         if(count($arr) > 1) // handle e.g. string(255)
