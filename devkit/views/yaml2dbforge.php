@@ -3,7 +3,7 @@
 
 <?=form_open($_form_base.AMP.'&method=yaml2dbforge');?>
 
-<p><textarea name="yaml" cols="10" rows="10"><?
+<p><textarea name="yaml" style="width:100%" cols="10" rows="10"><?
 
     if(isset($yaml) && $yaml != '')
     {
@@ -35,7 +35,7 @@ Contact:
 
 <p><h3>dbforge code (for the upd.yourmodule.com install() function):</h3></p>
 
-<p><textarea name="dbforge" cols="10" rows="10">
+<p><textarea name="dbforge" style="width:100%" cols="10" rows="10">
 <?
     if(isset($parsed_arr))
     {
@@ -75,7 +75,7 @@ $this->EE->dbforge->create_table('<?=$table_name?>');
 </textarea></p>
 
 <p><h3>Bonus treat: the upd.yourmodule.php uninstall() function!</h3></p>
-<p><textarea cols="10" rows="10">
+<p><textarea style="width:100%" cols="10" rows="10">
 <?
 if(isset($parsed_arr))
 {
@@ -117,6 +117,6 @@ foreach($parsed_arr as $table_name => $table_info)
 
 <h3>YAML array</h3>
 <p>(for debugging, if this doesn't look right something is wrong)</p>
-<p><textarea cols="10" rows="10"><?if(isset($parsed_arr)){print_r($parsed_arr);}?></textarea></p>
+<p><textarea style="width:100%" cols="10" rows="10"><?if(isset($parsed_arr)){print_r($parsed_arr);}?></textarea></p>
 
 </form>
