@@ -22,15 +22,12 @@ class UCFIRST_MODULE_NAME_mcp
 		$this->base	 	 = BASE.AMP.'C=addons_modules'.AMP.'M=show_module_cp'.AMP.'module='.$this->module_name;
 		$this->form_base = 'C=addons_modules'.AMP.'M=show_module_cp'.AMP.'module='.$this->module_name;
 
+        // uncomment this if you want navigation buttons at the top
 /*		$this->EE->cp->set_right_nav(array(
-				'openid_report'			=> $this->base.AMP.'method=report',
-				'openid_list_members'	=> $this->base.AMP.'method=list_members',
-				'openid_unit_tests'		=> $this->base.AMP.'method=unit_tests',
-				'openid_settings'		=> BASE.AMP.'C=addons_extensions&M=extension_settings&file=openid',
-			));	
-*/		
-		
-		//  Onward!
+				'home'			=> $this->base,
+				'some_language_key'	=> $this->base.AMP.'method=some_method_here',
+			));
+*/			
 	}
 
 	function index() 
