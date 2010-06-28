@@ -41,7 +41,7 @@ if(!function_exists('get_files')){
     {
         $arr = explode("(", $yaml_def);
         $yaml_type = "";
-        $yaml_type = strtolower(trim($arr[0],";"));
+        $yaml_type = strtolower(trim($arr[0],"; \t"));
 
         $dbforge_type = "";
         $extra = array();
