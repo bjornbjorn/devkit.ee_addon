@@ -1,4 +1,5 @@
 <?php  if ( ! defined('BASEPATH')) exit('No direct script access allowed');
+require_once PATH_THIRD.'libraries/addon_base.php';
 
 /**
  * Module Creator
@@ -9,14 +10,21 @@
  * @author		Bjorn Borresen
  * @link		http://ee.bybjorn.com/devkit
  */
-class Devkit {
+class Devkit extends Addon_base {
 
 	var $return_data;
+
+    /**
+     * @var Devkit_code_completion
+     */
+    private $EE;
 	
 	function Devkit()
-	{		
-		$this->EE =& get_instance(); // Make a local reference to the ExpressionEngine super object
-	}		
+	{
+        parent::__construct();
+	}
+
+
 }
 
 /* End of file mod.devkit.php */ 

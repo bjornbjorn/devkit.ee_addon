@@ -1,5 +1,5 @@
 <?php  if ( ! defined('BASEPATH')) exit('No direct script access allowed');
-
+require_once PATH_THIRD.'libraries/addon_base.php';
 
 /**
  * Installer for Devkit module
@@ -10,15 +10,14 @@
  * @author		Bjorn Borresen
  * @link		http://ee.bybjorn.com/devkit
  */
-class Devkit_upd {
+class Devkit_upd extends Addon_base {
 		
 	var $version        = '1.0'; 
 	var $module_name = "Devkit";
 	
-    function Devkit_upd( $switch = TRUE ) 
+    function __construct( $switch = TRUE ) 
     { 
-		// Make a local reference to the ExpressionEngine super object
-		$this->EE =& get_instance();
+    	parent::__construct($switch);
     } 
 
     /**

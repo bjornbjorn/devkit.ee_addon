@@ -1,5 +1,7 @@
 <?php  if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 
+require_once PATH_THIRD.'libraries/addon_base.php';
+
 /**
  * Devkit CP
  *
@@ -9,15 +11,20 @@
  * @author		Bjorn Borresen
  * @link		http://ee.bybjorn.com/devkit
  */
-class Devkit_mcp
+class Devkit_mcp extends Addon_base
 {
 	var $base;			// the base url for this module			
 	var $form_base;		// base url for forms
 	var $module_name;	
+	
+	/**
+	 * @var Devkit_code_completion
+     */
+	var $EE;
 
-	function Devkit_mcp( $switch = TRUE )
+	function __construct( $switch = TRUE )
 	{
-		$this->EE =& get_instance();    // Make a local reference to the ExpressionEngine super object
+		parent::__construct($switch);
 		$this->module_name = strtolower(str_replace('_mcp', '', get_class($this)));
 		$this->base	 	 = BASE.AMP.'C=addons_modules'.AMP.'M=show_module_cp'.AMP.'module='.$this->module_name;
 		$this->form_base = 'C=addons_modules'.AMP.'M=show_module_cp'.AMP.'module='.$this->module_name;
@@ -27,6 +34,7 @@ class Devkit_mcp
 				'dev_create_module'			=> $this->base.AMP.'method=new_module',
                 'yaml2dbforge'              => $this->base.AMP.'method=yaml2dbforge',
 				'dev_sync_globals'	        => $this->base.AMP.'method=sync_globals',
+				'run_code'					=> $this->base.AMP.'method=run_code',
 			));
 	}
 
@@ -38,6 +46,29 @@ class Devkit_mcp
     function new_module()
     {
         return $this->content_wrapper('new_module', 'create_module');
+    }
+    
+    function run_code()
+    {
+    	$code = $this->EE->input->post('code');
+    	if(!$code)
+		{		
+			return $this->content_wrapper('run_code', 'run_code');
+		}
+		else
+		{
+			$eval_returned = eval($code);
+			if(!is_null($eval_returned) && $eval_returned == FALSE)
+			{
+				$this->EE->session->set_flashdata('message_failure', lang('code_run_error'));
+			}
+			else
+			{
+				$this->EE->session->set_flashdata('message_success', lang('code_successfully_run'));								
+			}
+
+			$this->EE->functions->redirect($this->base.AMP.'&method=run_code');				
+		}		
     }
 
 	function sync_globals()
@@ -132,13 +163,15 @@ class Devkit_mcp
 	
 	function create_module()
 	{
-		$new_module_name = strtolower($this->EE->input->post('module_name'));
+        $this->EE->load->helper('url');
+
+		$new_module_name = url_title(strtolower($this->EE->input->post('module_name')), '_');
 		$module_human_name = $this->EE->input->post('module_human_name');
 		$module_description = $this->EE->input->post('module_description');
 		$module_author = $this->EE->input->post('module_author');
-		$module_link = $this->EE->input->post('module_link');
+		$module_link = $this->EE->input->post('module_link');        
 		$has_backend = $this->EE->input->post('has_backend');
-		
+
 		if(!file_exists(PATH_THIRD.'/'.$new_module_name))
 		{
 			if($new_module_name != '' && $module_human_name != '' && $module_description != '')
@@ -202,8 +235,7 @@ class Devkit_mcp
 		else
 		{
 			show_error("Could not find template: ". $template_file);
-		}		
-		
+		}
 	}
 
 	
@@ -214,7 +246,6 @@ class Devkit_mcp
 		$vars['_form_base'] = $this->form_base;
 		$this->EE->cp->set_variable('cp_page_title', lang($lang_key));
 		$this->EE->cp->set_breadcrumb($this->base, lang($this->module_name.'_module_name'));
-
 		return $this->EE->load->view('_wrapper', $vars, TRUE);
 	}
 	

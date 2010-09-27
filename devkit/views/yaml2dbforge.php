@@ -57,10 +57,21 @@ $this->EE->load->dbforge();
 
 $<?=$table_name?>_fields = array(
 <?
+    foreach($table_info['columns'] as $column_name => $column_type)
+    {
+        if($column_type == 'pk')
+        {
+            $primary_key = $column_name;
+            break;
+        }
+    }
+
     echo get_dbforge_col_def($primary_key, "primary");     // add primary key
     foreach($table_info['columns'] as $column_name => $column_type)
     {
-        echo get_dbforge_col_def($column_name, $column_type);
+        if($column_type != 'pk') {  // added above
+            echo get_dbforge_col_def($column_name, $column_type);
+        }
     }
 ?>
 );
