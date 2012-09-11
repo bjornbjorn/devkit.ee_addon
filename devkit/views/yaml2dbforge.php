@@ -1,9 +1,9 @@
-<p><?=lang('yaml2dbforge_expl');?></p>
-<p><h3><?=lang('enter_yaml')?></h3></p>
+<p><?php echo lang('yaml2dbforge_expl');?></p>
+<p><h3><?php echo lang('enter_yaml')?></h3></p>
 
-<?=form_open($_form_base.AMP.'&method=yaml2dbforge');?>
+<?php echo form_open($_form_base.AMP.'&method=yaml2dbforge');?>
 
-<p><textarea name="yaml" style="width:100%" cols="10" rows="10"><?
+<p><textarea name="yaml" style="width:100%" cols="10" rows="10"><?php 
 
     if(isset($yaml) && $yaml != '')
     {
@@ -26,7 +26,7 @@ Contact:
     phone: string
     email: string
     address: string
-<?
+<?php 
     }
 
 ?></textarea></p>
@@ -36,12 +36,12 @@ Contact:
 <p><h3>dbforge code (for the upd.yourmodule.com install() function):</h3></p>
 
 <p><textarea name="dbforge" style="width:100%" cols="10" rows="10">
-<?
+<?php 
     if(isset($parsed_arr))
     {
 ?>
 $this->EE->load->dbforge();
-<?
+<?php 
         foreach($parsed_arr as $table_name => $table_info)
         {
             $table_name = strtolower($table_name);
@@ -55,8 +55,8 @@ $this->EE->load->dbforge();
             $primary_key .="_id";
             ?>
 
-$<?=$table_name?>_fields = array(
-<?
+$<?php echo $table_name?>_fields = array(
+<?php 
     foreach($table_info['columns'] as $column_name => $column_type)
     {
         if($column_type == 'pk')
@@ -76,10 +76,10 @@ $<?=$table_name?>_fields = array(
 ?>
 );
 
-$this->EE->dbforge->add_field($<?=$table_name?>_fields);
-$this->EE->dbforge->add_key('<?=$primary_key?>', TRUE);
-$this->EE->dbforge->create_table('<?=$table_name?>');
-<?
+$this->EE->dbforge->add_field($<?php echo $table_name?>_fields);
+$this->EE->dbforge->add_key('<?php echo $primary_key?>', TRUE);
+$this->EE->dbforge->create_table('<?php echo $table_name?>');
+<?php 
         }
     }
 ?>
@@ -87,7 +87,7 @@ $this->EE->dbforge->create_table('<?=$table_name?>');
 
 <p><h3>Bonus treat: the upd.yourmodule.php uninstall() function!</h3></p>
 <p><textarea style="width:100%" cols="10" rows="10">
-<?
+<?php 
 if(isset($parsed_arr))
 {
 ?>
@@ -110,24 +110,24 @@ function uninstall()
     $this->EE->db->where('class', $this->module_name.'_mcp');
     $this->EE->db->delete('actions');
 
-<?
+<?php 
 foreach($parsed_arr as $table_name => $table_info)
 {
 ?>
-    $this->EE->dbforge->drop_table('<?=strtolower($table_name)?>');
-<?
+    $this->EE->dbforge->drop_table('<?php echo strtolower($table_name)?>');
+<?php 
 }
 ?>
 
     return TRUE;
 }
-<?
+<?php 
 }
 ?>
 </textarea></p>
 
 <h3>YAML array</h3>
 <p>(for debugging, if this doesn't look right something is wrong)</p>
-<p><textarea style="width:100%" cols="10" rows="10"><?if(isset($parsed_arr)){print_r($parsed_arr);}?></textarea></p>
+<p><textarea style="width:100%" cols="10" rows="10"><?php if(isset($parsed_arr)){print_r($parsed_arr);}?></textarea></p>
 
 </form>
